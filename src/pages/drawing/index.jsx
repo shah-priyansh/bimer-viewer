@@ -47,37 +47,17 @@ function drawing() {
             (doc) => {
               viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry());
 
-              // Add an image overlay
-              // const imageOverlay = document.getElementById("imageOverlay");
-              // imageOverlay.innerHTML =
-              //   ' <img src="https://media.geeksforgeeks.org/wp-content/uploads/20190506164011/logo3.png" height="52" alt="GeeksforGeeks logo">';
-
-              // // Position the image overlay within the viewer
-              // const viewerContainer = viewerDiv.getElementsByClassName(
-              //   "adsk-viewing-viewer"
-              // )[0];
-              // console.log("viewerContainer3", viewerContainer);
-
-              // imageOverlay.style.position = "absolute";
-              // imageOverlay.style.left = "10px"; // Adjust the left position as needed
-              // imageOverlay.style.top = "10px"; // Adjust the top position as needed
-              // imageOverlay.style.zIndex = "1"; // Ensure it appears above the viewer
-
-              // viewerContainer.appendChild(imageOverlay);
-              const imageSrc =
-                "https://media.geeksforgeeks.org/wp-content/uploads/20190506164011/logo3.png";
-              const position = { x: 10, y: 10 }; // Adjust position as needed
-
-              // const addImageOverlay = () => {
-              //   const img = document.createElement("img");
-              //   img.src = imageSrc;
-              //   img.width = 52;
-              //   img.alt = "GeeksforGeeks logo";
-              //   viewer.add2DOverlay(img, position);
-              // };
-
-              // addImageOverlay();
+              // Load the image as an overlay
+              const imageOverlay = document.createElement("img");
+              imageOverlay.src = "/vite.svg";
+              imageOverlay.style.position = "absolute";
+              imageOverlay.style.left = "10px";
+              imageOverlay.style.top = "10px";
+              imageOverlay.style.zIndex = "1";
+              imageOverlay.style.height = "40px";
+              document.body.appendChild(imageOverlay);
             },
+
             (code, message, errors) => {
               console.error(code, message, errors);
               alert("Could not load model. See console for more details.");
@@ -86,6 +66,20 @@ function drawing() {
       });
     }
   }, [drawing]);
+  // const modelStructurePanel = document.getElementById(
+  //   "ViewerModelStructurePanel"
+  // );
+  // if (modelStructurePanel) {
+  //   // Update the style of the panel
+  //   modelStructurePanel.style.top = "70px"; // Set the width to 300px
+  //   modelStructurePanel.style.backgroundColor = "lightgray"; // Change the background color
+
+  //   // You can apply more styles as needed
+  // } else {
+  //   console.log(
+  //     "ViewerMowwdelStructurePanel not found or not yet initialized."
+  //   );
+  // }
   return <div id="forgeViewerContainer" style={{ height: "100%" }}></div>;
 }
 
