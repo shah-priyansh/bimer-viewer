@@ -8,7 +8,7 @@ function Dashboard() {
       {/* Image Section */}
       <div class="w-1/2 p-8 flex items-center">
         <img
-          src="/src/assets/p3.png"
+          src="/dashboard.png"
           alt="Placeholder Image"
           class="w-full h-auto rounded-lg"
         />
