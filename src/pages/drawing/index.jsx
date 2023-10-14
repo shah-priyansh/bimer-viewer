@@ -68,15 +68,15 @@ function drawing() {
                 "https://media.geeksforgeeks.org/wp-content/uploads/20190506164011/logo3.png";
               const position = { x: 10, y: 10 }; // Adjust position as needed
 
-              const addImageOverlay = () => {
-                const img = document.createElement("img");
-                img.src = imageSrc;
-                img.width = 52;
-                img.alt = "GeeksforGeeks logo";
-                viewer.add2DOverlay(img, position);
-              };
+              // const addImageOverlay = () => {
+              //   const img = document.createElement("img");
+              //   img.src = imageSrc;
+              //   img.width = 52;
+              //   img.alt = "GeeksforGeeks logo";
+              //   viewer.add2DOverlay(img, position);
+              // };
 
-              addImageOverlay();
+              // addImageOverlay();
             },
             (code, message, errors) => {
               console.error(code, message, errors);
