@@ -1,9 +1,9 @@
 import { useParams } from "@solidjs/router";
 import axios from "axios";
 import { createEffect, createSignal } from "solid-js";
-import { ClipLoader } from "react-spinners";
 
 import "./main.scss";
+import toast from "solid-toast";
 
 function drawing() {
   const [drawingDetail, setDrawingDetails] = createSignal(null);
@@ -29,6 +29,7 @@ function drawing() {
       .then((res) => {
         if (res.data.message === "PIN is wrong!") {
           setLoading(false);
+          toast.error(res.data.message);
         } else {
           setToken(res.data.token);
           setDrawingDetails(res.data);
@@ -86,14 +87,14 @@ function drawing() {
 
               // const dateElement = document.createElement("p");
               // dateElement.textContent = formattedDate;
-              const revisionElement = document.createElement("p");
-              revisionElement.textContent = drawingDetail()?.drawing_code;
+
               const versionElement = document.createElement("p");
-              versionElement.textContent = `-${drawingDetail()?.version_text}`;
+              versionElement.textContent = `${drawingDetail()?.drawing_code}-${
+                drawingDetail()?.version_text
+              }`;
 
               // Append the title and details to the item container
               itemContainer.appendChild(titleElement);
-              itemContainer.appendChild(revisionElement);
               itemContainer.appendChild(versionElement);
 
               // Append the item container to the items container
@@ -106,7 +107,6 @@ function drawing() {
                 container.appendChild(customLoader);
               }
             },
-
             (code, message, errors) => {
               console.error(code, message, errors);
               alert("Could not load model. See console for more details.");
@@ -119,8 +119,9 @@ function drawing() {
   return (
     <>
       {loading() ? (
-        <div style={{ margin: "350px  45% ", fontSize: "larger" }}>
-          <span style={{ fontSize: "larger" }}>Loading...</span>
+        <div style={{ margin: "450px  45% ", fontSize: "larger" }}>
+          <div>Loading...</div>
+          <div className="bar-loader"></div>
         </div>
       ) : (
         <div id="forgeViewerContainer" style={{ height: "100%" }}></div>
