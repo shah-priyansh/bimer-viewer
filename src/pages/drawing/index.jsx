@@ -10,13 +10,7 @@ function drawing() {
   const [token, setToken] = createSignal("");
   const [projectPin, setProjectPin] = createSignal("");
   const [loading, setLoading] = createSignal(true);
-  let [color, setColor] = createSignal("#c22525");
   const params = useParams();
-  const override = {
-    display: "block",
-    margin: "0 auto",
-    borderColor: "red",
-  };
 
   createEffect(async () => {
     await axios
