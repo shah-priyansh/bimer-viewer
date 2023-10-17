@@ -1,8 +1,8 @@
-import { Router, Route, Routes } from "@solidjs/router";
+import { Route, Router, Routes } from "@solidjs/router";
+import { Toaster } from "solid-toast";
+import Dashboard from "./pages/dashboard";
 import Drawing from "./pages/drawing";
 import "./styles/main.scss";
-import Dashboard from "./pages/dashboard";
-import toast, { Toaster } from "solid-toast";
 
 function App() {
   return (
