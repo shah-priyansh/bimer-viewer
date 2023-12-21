@@ -1,0 +1,36 @@
+.project_info {
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+.card2_wrapp {
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  margin-left: 0;
+
+  &.flex-column {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  &,
+  .card-label {
+    font-weight: 500;
+    font-size: 1.275rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 0;
+  }
+}

@@ -1,6 +1,6 @@
 import { useParams } from "@solidjs/router";
 import axios from "axios";
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, onCleanup } from "solid-js";
 
 import "./main.scss";
 import toast from "solid-toast";
@@ -108,6 +108,18 @@ function drawing() {
           );
       });
     }
+    onCleanup(() => {
+      const imageOverlay = document.querySelector(".overlay-image");
+      if (imageOverlay) {
+        imageOverlay.remove(); // Remove the image overlay when unmounting
+      }
+
+      const itemContainer = document.querySelector(".item-container");
+      if (itemContainer) {
+        itemContainer.remove(); // Remove the item container when unmounting
+      }
+      // Any other cleanup tasks can be added here
+    });
   }, [drawing]);
 
   return (
