@@ -1,36 +1,136 @@
-.project_info {
-  background-color: #ffffff;
-  border-radius: 10px;
-}
-.card2_wrapp {
-  background-color: #ffffff;
-  border-radius: 10px;
-  margin-bottom: 18px;
-}
+.app-content {
+  padding: 30px 20px;
+  background-color: #f5f8fa;
 
-.card-title {
-  display: flex;
-  align-items: center;
-  margin: 10px;
-  margin-left: 0;
+  .card-demo {
+    padding: 30px 30px 13px 30px;
+    border-radius: 10px;
+    background-color: white;
 
-  &.flex-column {
-    align-items: flex-start;
-    justify-content: center;
+    .card-contents {
+      margin-bottom: 10px;
+  
+      .card-img {
+        height: 100px;
+        width: 100px;
+      }
+  
+      .card_title{
+        font-size:20px;
+        color: #3f4254;
+        line-height:26px;
+  
+        &:hover{
+          color: #009ef7;
+        }
+      }
+  
+      .drawing_box{
+        border-color: #e1e3ea;
+        width: 125px;
+        border-radius: 0.475rem;
+        padding:10px 13px;
+  
+        h5{
+          font-size:20px;
+          line-height:30px;
+        }
+        span{
+          color: #b5b5c3;
+        }
+      }
+    }
+
   }
 
-  &,
-  .card-label {
-    font-weight: 500;
-    font-size: 1.275rem;
+  .sub-title{
+    font-size:16px;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin-bottom: 0;
+  .drawing-card{
+    background-color: white;
+    border-radius:8px;
+    padding:2.25rem;
+
+    .img-box{
+      background-color: #f9f9f9;
+      padding:10px;
+      border-radius: 0.475rem;
+      width: 50px;
+      height: 50px;
+    }
+
+    .drawing-content{
+      padding-top: 2.25rem;
+
+      .drawing-title{
+        font-size:16px;
+        color: #181c32 !important;
+      }
+
+      .drawing-subtitle{
+        color: #b5b5c3;
+        margin-bottom: 1.75rem!important;
+        font-size:15px;
+      }
+      
+      .btns{
+        width: 125px;
+        border-radius: 0.475rem!important;
+        border: 2px dashed #e1e3ea;
+
+        p{
+          font-size:13px;
+          color: #b5b5c3;
+        }
+      }
+
+      .drawing-border{
+        background-color: #f9f9f9;
+        border-radius: 0.475rem!important;
+        height: 4px;
+      }
+    }
+  }
+
+  .login_box{
+    min-width: 400px;
+  }
+
+ 
+}
+
+
+
+
+@media screen and (min-width:1200px) {
+  .card_title{
+    font-size:20px;
+    line-height:30px;
+  }
+
+  .sub-title{
+    font-size:18px !important;
+  }
+
+  .drawing-card{
+
+    .drawing-content{
+      .drawing-title{
+        font-size:18px !important;
+      }
+    }
+  }
+  
+}
+
+@media screen and (min-width: 992px) {
+  .app-content {
+    padding: 30px 30px;
+
+    .card-img {
+      height: 160px !important;
+      width: 160px !important;
+    }
   }
 }

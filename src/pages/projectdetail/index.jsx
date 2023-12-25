@@ -90,172 +90,128 @@ function ProjectDetail() {
         project() &&
         error() !== "PIN is wrong!" ? (
         <>
-          <div className={`mb-5 mb-xl-10 project_info cursor-pointer`}>
-            <div className="card-body p-9 pb-4">
-              <div className="d-flex flex-wrap flex-sm-nowrap mb-3">
-                <div className="me-7 mb-4">
-                  <div className="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <img src={getImageSrc(project())} alt={project()?.name} />
-                  </div>
-                </div>
+          <div className="app-content">
 
-                <div className="flex-grow-1">
-                  <div className="d-flex justify-content-between align-items-start flex-wrap mb-2">
-                    <div className="d-flex flex-column">
-                      <div className="d-flex align-items-center mb-2">
-                        <div className="text-gray-800 text-hover-primary fs-2 fw-bolder me-1">
-                          {project()?.name}
-                        </div>
-                      </div>
-
-                      <div className="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
-                        {project()?.tags &&
-                          project()?.tags?.map((tag) => (
-                            <span className="badge badge-light-danger fw-semibold me-1">
-                              {tag}
-                            </span>
-                          ))}
-                      </div>
+            <div>
+              <div className="card-demo">
+                <div className="flex flex-sm-nowrap gap-6 card-contents">
+                  <div>
+                    <div className="inline-block card-img">
+                      <img className="rounded inline-block" src={getImageSrc(project())} alt={project()?.name} />
                     </div>
                   </div>
+                  <div className="flex-grow">
 
-                  <div className="d-flex flex-wrap flex-stack">
-                    <div className="d-flex flex-column flex-grow-1 pe-8">
-                      <div className="d-flex flex-wrap">
-                        <div className="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                          <div className="d-flex align-items-center">
-                            <div className="fs-2 fw-bolder">
-                              {drawings().length}
-                            </div>
-                          </div>
 
-                          <div className="fw-bold fs-6 text-gray-400">
-                            {drawings().length === 1 ? "Drawing" : "Drawings"}
-                          </div>
-                        </div>
-                      </div>
+                    <div className="font-bold card_title ">
+                      {project()?.name}
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between align-items-center h-55px">
-            <div className="card-header border-0 pt-5">
-              <h3 className="card-title align-items-start flex-column">
-                <span className="card-label fw-bold fs-3 mb-1">Drawings</span>
-              </h3>
-            </div>
-          </div>
-          <div className="row">
-            {drawings().map((drawing) => (
-              <div
-                className="col-md-6 col-xl-4 cursor-pointer"
-                key={drawing.id}
-                onClick={() => go_to_drawing(drawing?.code)}
-              >
-                {" "}
-                <div
-                  className={`border border-2 border-gray-300 border-hover card2_wrapp`}
-                  style={{ maxHeight: "300px", maxWidth: "580px" }}
-                >
-                  <div className="card-header border-0 pt-9">
-                    <div className="card-title m-0">
-                      <div className="symbol symbol-50px w-50px bg-light ms-7">
-                        <img src="/plurk.svg" alt="card2" className="p-3" />
+                    <div className="border border-dashed mt-7 drawing_box">
+                      <div className="flex items-center gap-2">
+                        <div></div>
+                        <h5 className=" font-bold">
+                          {drawings().length}
+                        </h5>
                       </div>
-                    </div>
-
-                    <div className="card-toolbar">
-                      <span className={`badge  fw-bolder me-auto px-4 py-3`}>
-                        {drawing?.status}
+                      <span className="text-sm font-semibold ">
+                        {drawings().length === 1 ? "Drawing" : "Drawings"}
                       </span>
                     </div>
-                  </div>
 
-                  <div className="card-body p-9">
-                    <div className="fs-3 fw-bolder text-dark">
-                      {drawing?.title}
-                    </div>
-
-                    <p className="text-gray-400 fw-bold fs-5 mt-1 mb-7">
-                      {drawing?.description}
-                    </p>
-
-                    <div className="d-flex flex-wrap mb-5">
-                      <div className="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3">
-                        <div className="fs-6 text-gray-800 fw-bolder">
-                          {drawing?.date}
-                        </div>
-                        <div className="fw-bold text-gray-400">Due Date</div>
-                      </div>
-
-                      <div className="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
-                        <div className="fs-6 text-gray-800 fw-bolder">
-                          {drawing?.budget}
-                        </div>
-                        <div className="fw-bold text-gray-400">Budget</div>
-                      </div>
-                    </div>
-
-                    <div
-                      className="h-4px w-100 bg-light mb-5"
-                      data-bs-toggle="tooltip"
-                      title="This project completed"
-                    >
-                      <div
-                        className={` rounded h-4px`}
-                        role="progressbar"
-                      ></div>
-                    </div>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="mt-8 pt-4">
+
+
+              <h3 className="sub-title font-semibold">Drawings</h3>
+              <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-1">
+                {drawings().map((drawing) => (
+                  <div
+                    key={drawing.id}
+                    onClick={() => go_to_drawing(drawing?.code)}
+                  >
+                    {/* card Start */}
+                    <div className="drawing-card">
+                      <div className="img-box inline-block">
+                        <img src="/plurk.svg" alt="card2" />
+                      </div>
+                      <div className="drawing-content">
+                        <h5 className=" font-bold drawing-title">{drawing?.description}</h5>
+                        <div className="font-semibold drawing-subtitle">{drawing?.description}</div>
+                        <div className="mt-6 flex items-center gap-6">
+
+                          <div className="py-3 px-4 btns">
+                            <div className="">
+                              {drawing?.date}
+                            </div>
+                            <p className="font-semibold">Due Date</p>
+                          </div>
+
+                          <div className="py-3 px-4 btns">
+                            <div className="">
+                              {drawing?.budget}
+                            </div>
+                            <p className="font-semibold">Budget</p>
+                          </div>
+
+                        </div>
+                        <div className="mt-6 mb-4 drawing-border"></div>
+                      </div>
+                    </div>
+                    {/* card End */}
+
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </>
       ) : (
         <>
-          {" "}
-          <div class="flex justify-center items-center h-screen">
-            <div class="bg-white shadow-md rounded-md p-8">
-              <h2 class="text-2xl font-semibold mb-4">
-                {params.projectId === ":projectId"
-                  ? "Enter Project ID"
-                  : "Enter PIN"}
-              </h2>
-              <form onSubmit={handleSubmit}>
-                {params.projectId === ":projectId" ? (
-                  <input
-                    class="w-full border-black-300 rounded-md py-2 px-4 mb-4"
-                    type="text"
-                    placeholder="Enter Project ID"
-                    onChange={(e) => setProjectId(e.target.value)}
-                  />
-                ) : (
-                  <input
-                    class="w-full border-black-300 rounded-md py-2 px-4 mb-4"
-                    type="text"
-                    placeholder="Enter PIN"
-                    value={projectPin()}
-                    onInput={(e) => setProjectPin(e.target.value)}
-                  />
-                )}
-                <button
-                  type="submit"
-                  class="w-full bg-blue-500 text-white py-2 rounded-md transition duration-300 hover:bg-blue-600"
-                  disabled={loading()}
-                >
-                  {loading() ? "Loading..." : "Submit"}
-                </button>
+          <div className="app-content">
+            <div class="flex justify-center items-center h-screen">
+              <div class="bg-white border rounded-md px-8 py-6 login_box">
+                <h2 class="text-2xl font-semibold mb-4">
+                  {params.projectId === ":projectId"
+                    ? "Enter Project ID"
+                    : "Enter PIN"}
+                </h2>
+                <form  onSubmit={handleSubmit}>
+                  {params.projectId === ":projectId" ? (
+                    <input
+                      class="w-full border-black-300 rounded-md py-2 px-4 mt-4"
+                      type="text"
+                      placeholder="Enter Project ID"
+                      onChange={(e) => setProjectId(e.target.value)}
+                    />
+                  ) : (
+                    <input
+                      class="w-full border border-black-300 rounded-md py-2 px-4 mt-4"
+                      type="text"
+                      placeholder="Enter PIN"
+                      value={projectPin()}
+                      onInput={(e) => setProjectPin(e.target.value)}
+                    />
+                  )}
+                  <button
+                    type="submit"
+                    class="w-full bg-blue-500 mt-4 text-white py-2 rounded-md transition duration-300 hover:bg-blue-600"
+                    disabled={loading()}
+                  >
+                    {loading() ? "Loading..." : "Submit"}
+                  </button>
 
-                {error() && <p class="text-red-500 mt-2">{error()}</p>}
-              </form>
+                  {error() && <p class="text-red-500 mt-2">{error()}</p>}
+                </form>
+              </div>
             </div>
           </div>
+
         </>
       )}
-      )
     </>
   );
 }
