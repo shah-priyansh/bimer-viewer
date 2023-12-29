@@ -2,6 +2,8 @@ import { useNavigate, useParams } from "@solidjs/router";
 import axios from "axios";
 import { createEffect, createSignal } from "solid-js";
 import "./main.scss";
+import toast from "solid-toast";
+
 
 function ProjectDetail() {
   const params = useParams();
@@ -13,26 +15,34 @@ function ProjectDetail() {
   const [drawings, setDrawings] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
 
+  createEffect(async () => {
+    if (!params.projectId) {
+      navigate(`/p/:projectId`); // Call API to fetch project details
+    }
+  }, []);
+
   const fetchProjectDetails = async (projectId, pin) => {
     setLoading(true);
     try {
-      await axios
-        .post(`https://api.bimx.avinashi.com/getProjectDetails/${projectId}`, {
-          pin,
-        })
-        .then((res) => {
-          if (res.data.message === "PIN is wrong!") {
-            setError(res.data.message);
-            setLoading(false);
-            setProjectPin("");
-          } else {
-            setProject(res.data.project);
-            setDrawings(res.data.drawings);
-            setLoading(false);
-            setProjectPin(pin);
-            localStorage.setItem("ProjectPin", JSON.stringify({ pin }));
-          }
-        });
+        await axios
+          .post(`https://api.bimx.avinashi.com/getProjectDetails/${projectId}`, {
+            pin,
+          })
+          .then((res) => {
+            if (res.data.message === "PIN is wrong!") {
+              setError(res.data.message);
+              setLoading(false);
+              setProjectPin("");
+              toast.error(res.data.message);
+            } else {
+              setProject(res.data.project);
+              setDrawings(res.data.drawings);
+              setLoading(false);
+              setProjectPin(pin);
+              navigate(`/p/${projectId}`);
+              localStorage.setItem("ProjectPin", JSON.stringify({ pin }));
+            }
+          });
     } catch (error) {
       setError("Error fetching project details", error);
       setLoading(false);
@@ -70,8 +80,8 @@ function ProjectDetail() {
   };
 
   const go_to_drawing = (drawingId) => {
-    navigate(`/${drawingId}`)
-  }
+    navigate(`/${drawingId}`);
+  };
 
   const getImageSrc = (project) => {
     const projectName = project.name.trim();
@@ -91,41 +101,37 @@ function ProjectDetail() {
         error() !== "PIN is wrong!" ? (
         <>
           <div className="app-content">
-
             <div>
               <div className="card-demo">
                 <div className="flex flex-sm-nowrap gap-6 card-contents">
                   <div>
                     <div className="inline-block card-img">
-                      <img className="rounded inline-block" src={getImageSrc(project())} alt={project()?.name} />
+                      <img
+                        className="rounded inline-block"
+                        src={getImageSrc(project())}
+                        alt={project()?.name}
+                      />
                     </div>
                   </div>
                   <div className="flex-grow">
-
-
                     <div className="font-bold card_title ">
                       {project()?.name}
                     </div>
                     <div className="border border-dashed mt-7 drawing_box">
                       <div className="flex items-center gap-2">
                         <div></div>
-                        <h5 className=" font-bold">
-                          {drawings().length}
-                        </h5>
+                        <h5 className=" font-bold">{drawings().length}</h5>
                       </div>
                       <span className="text-sm font-semibold ">
                         {drawings().length === 1 ? "Drawing" : "Drawings"}
                       </span>
                     </div>
-
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="mt-8 pt-4">
-
-
               <h3 className="sub-title font-semibold">Drawings</h3>
               <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-1">
                 {drawings().map((drawing) => (
@@ -139,30 +145,27 @@ function ProjectDetail() {
                         <img src="/plurk.svg" alt="card2" />
                       </div>
                       <div className="drawing-content">
-                        <h5 className=" font-bold drawing-title">{drawing?.description}</h5>
-                        <div className="font-semibold drawing-subtitle">{drawing?.description}</div>
+                        <h5 className=" font-bold drawing-title">
+                          {drawing?.description}
+                        </h5>
+                        <div className="font-semibold drawing-subtitle">
+                          {drawing?.description}
+                        </div>
                         <div className="mt-6 flex items-center gap-6">
-
                           <div className="py-3 px-4 btns">
-                            <div className="">
-                              {drawing?.date}
-                            </div>
+                            <div className="">{drawing?.date}</div>
                             <p className="font-semibold">Due Date</p>
                           </div>
 
                           <div className="py-3 px-4 btns">
-                            <div className="">
-                              {drawing?.budget}
-                            </div>
+                            <div className="">{drawing?.budget}</div>
                             <p className="font-semibold">Budget</p>
                           </div>
-
                         </div>
                         <div className="mt-6 mb-4 drawing-border"></div>
                       </div>
                     </div>
                     {/* card End */}
-
                   </div>
                 ))}
               </div>
@@ -175,12 +178,14 @@ function ProjectDetail() {
             <div class="flex justify-center items-center h-screen">
               <div class="bg-white border rounded-md px-8 py-6 login_box">
                 <h2 class="text-2xl font-semibold mb-4">
-                  {params.projectId === ":projectId"
+                  {params.projectId === ":projectId" ||
+                  error() === "Error fetching project details"
                     ? "Enter Project ID"
                     : "Enter PIN"}
                 </h2>
-                <form  onSubmit={handleSubmit}>
-                  {params.projectId === ":projectId" ? (
+                <form onSubmit={handleSubmit}>
+                  {params.projectId === ":projectId" ||
+                  error() === "Error fetching project details" ? (
                     <input
                       class="w-full border-black-300 rounded-md py-2 px-4 mt-4"
                       type="text"
@@ -209,7 +214,6 @@ function ProjectDetail() {
               </div>
             </div>
           </div>
-
         </>
       )}
     </>

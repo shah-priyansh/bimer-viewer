@@ -11,26 +11,33 @@ function drawing() {
   const [projectPin, setProjectPin] = createSignal("");
   const [loading, setLoading] = createSignal(true);
   const params = useParams();
+  const storedPin = localStorage.getItem("ProjectPin");
 
   createEffect(async () => {
-    await axios
-      .post(
+    try {
+      const response = await axios.post(
         `https://api.bimx.avinashi.com/getDrawingDetails/${params.drawingId}`,
         {
-          pin: 12345,
+          pin:  JSON.parse(storedPin)?.pin,
         }
-      )
-      .then((res) => {
-        if (res.data.message === "PIN is wrong!") {
-          setLoading(false);
-          toast.error(res.data.message);
-        } else {
-          setToken(res.data.token);
-          setDrawingDetails(res.data);
-          setLoading(false);
-        }
-      });
-  }, []);
+      );
+
+      if (
+        response.data.message === "PIN is wrong!" ||
+        response.data.message === "Drawing not found"
+      ) {
+        setLoading(false);
+        toast.error(response.data.message);
+      } else {
+        setToken(response.data.token);
+        setDrawingDetails(response.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error);
+    }
+  }, [params.drawingId]);
   createEffect(() => {
     if (token() && drawingDetail()?.drawing) {
       const options = {
@@ -121,16 +128,72 @@ function drawing() {
       // Any other cleanup tasks can be added here
     });
   }, [drawing]);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await axios.post(
+        `https://api.bimx.avinashi.com/getDrawingDetails/${params.drawingId}`,
+        {
+          pin: projectPin() || JSON.parse(storedPin)?.pin,
+        }
+      );
+
+      if (
+        response.data.message === "PIN is wrong!" ||
+        response.data.message === "Drawing not found"
+      ) {
+        setLoading(false);
+        toast.error(response.data.message);
+      } else {
+        setToken(response.data.token);
+        setDrawingDetails(response.data);
+        setLoading(false);
+        localStorage.setItem("ProjectPin", JSON.stringify({ pin:projectPin() }));
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error);
+    }
+  };
 
   return (
     <>
       {loading() ? (
-        <div style={{ margin: "450px  45% ", fontSize: "larger" }}>
+        <div style={{ margin: "450px 45%", fontSize: "larger" }}>
           <div>Loading...</div>
           <div className="bar-loader"></div>
         </div>
+      ) : drawingDetail() && drawingDetail().drawing ? (
+        <div>
+          <div id="forgeViewerContainer" style={{ height: "100%" }}></div>
+        </div>
       ) : (
-        <div id="forgeViewerContainer" style={{ height: "100%" }}></div>
+          <div className="app-content">
+            <div class="flex justify-center items-center h-screen">
+              <div class="bg-white border rounded-md px-8 py-6 login_box">
+                <h2 class="text-2xl font-semibold mb-4">Enter PIN</h2>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    class="w-full border border-black-300 rounded-md py-2 px-4 mt-4"
+                    type="text"
+                    placeholder="Enter PIN"
+                    value={projectPin()}
+                    onInput={(e) => setProjectPin(e.target.value)}
+                  />
+
+                  <button
+                    type="submit"
+                    class="w-full bg-blue-500 mt-4 text-white py-2 rounded-md transition duration-300 hover:bg-blue-600"
+                    disabled={loading()}
+                  >
+                    {loading() ? "Loading..." : "Submit"}
+                  </button>
+
+                </form>
+        
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

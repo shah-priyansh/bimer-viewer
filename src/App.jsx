@@ -11,7 +11,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="" component={Dashboard} />
+          <Route path="" component={ProjectDetail} />
           <Route path="/:drawingId" component={Drawing} />
           <Route path='p/:projectId' component={ProjectDetail} />
         </Routes>
